@@ -11,15 +11,15 @@ func Option[T any](p ParserFunc[T]) ParserFunc[T] {
 }
 
 // Try
-func Try[T any](ps ...ParserFunc[*T]) ParserFunc[*T] {
-	return func(input []byte) (ParseResult[*T], error) {
+func Try[T any](ps ...ParserFunc[T]) ParserFunc[T] {
+	return func(input []byte) (ParseResult[T], error) {
 		for _, p := range ps {
 			res, err := p(input)
 			if err == nil {
 				return res, nil
 			}
 		}
-		return ParseResult[*T]{
+		return ParseResult[T]{
 			Parsed: nil,
 			Remain: input,
 		}, errors.New("try")
@@ -27,17 +27,17 @@ func Try[T any](ps ...ParserFunc[*T]) ParserFunc[*T] {
 }
 
 // Transform
-func Transform[T any, U any](p ParserFunc[*T], transformer func(T) U) ParserFunc[*U] {
-	return func(input []byte) (ParseResult[*U], error) {
+func Transform[T any, U any](p ParserFunc[T], transformer func(T) U) ParserFunc[U] {
+	return func(input []byte) (ParseResult[U], error) {
 		res, err := p(input)
 		if err != nil {
-			return ParseResult[*U]{
+			return ParseResult[U]{
 				Parsed: nil,
 				Remain: res.Remain,
 			}, err
 		}
 		mapped := transformer(*res.Parsed)
-		return ParseResult[*U]{
+		return ParseResult[U]{
 			Parsed: &mapped,
 			Remain: res.Remain,
 		}, nil
@@ -58,12 +58,12 @@ func many[T any](p ParserFunc[T], minCount int, errStr string) ParserFunc[[]T] {
 					}, errors.New(errStr)
 				} else {
 					return ParseResult[[]T]{
-						Parsed: result,
+						Parsed: &result,
 						Remain: remain,
 					}, nil
 				}
 			}
-			result = append(result, res.Parsed)
+			result = append(result, *res.Parsed)
 			remain = res.Remain
 		}
 	}

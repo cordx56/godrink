@@ -17,7 +17,7 @@ func String(tag []byte) ParserFunc[[]byte] {
 		}
 		if bytes.Equal(tag, input[:len(tag)]) {
 			return ParseResult[[]byte]{
-				Parsed: tag,
+				Parsed: &tag,
 				Remain: input[len(tag):],
 			}, nil
 		} else {
@@ -42,23 +42,23 @@ func checkByteSequence(input []byte, checkFunc func(byte) bool, minLength int, e
 				}, errors.New(errStr)
 			} else {
 				return ParseResult[[]byte]{
-					Parsed: ret,
+					Parsed: &ret,
 					Remain: input[i:],
 				}, nil
 			}
 		}
 	}
 	return ParseResult[[]byte]{
-		Parsed: ret,
+		Parsed: &ret,
 		Remain: []byte{},
 	}, nil
 }
 
 func isSpace(b byte) bool {
-	return b == 32 || b == 9
+	return b == ' ' || b == '\t'
 }
 func isMultiSpace(b byte) bool {
-	return isSpace(b) || b == 10 || b == 13
+	return isSpace(b) || b == '\n' || b == '\r'
 }
 func Space0(input []byte) (ParseResult[[]byte], error) {
 	return checkByteSequence(input, isSpace, 0, "space0")
@@ -73,10 +73,10 @@ func MultiSpace1(input []byte) (ParseResult[[]byte], error) {
 	return checkByteSequence(input, isMultiSpace, 1, "multiSpace1")
 }
 func isAlpha(b byte) bool {
-	return 65 <= b && b <= 90 || 97 <= b && b <= 122
+	return 'A' <= b && b <= 'Z' || 'a' <= b && b <= 'z'
 }
 func isNumeric(b byte) bool {
-	return 48 <= b && b <= 57
+	return '0' <= b && b <= '9'
 }
 func Alpha0(input []byte) (ParseResult[[]byte], error) {
 	return checkByteSequence(input, isAlpha, 0, "alpha0")
@@ -84,10 +84,10 @@ func Alpha0(input []byte) (ParseResult[[]byte], error) {
 func Alpha1(input []byte) (ParseResult[[]byte], error) {
 	return checkByteSequence(input, isAlpha, 1, "alpha1")
 }
-func numeric0(input []byte) (ParseResult[[]byte], error) {
+func Numeric0(input []byte) (ParseResult[[]byte], error) {
 	return checkByteSequence(input, isNumeric, 0, "numeric0")
 }
-func numeric1(input []byte) (ParseResult[[]byte], error) {
+func Numeric1(input []byte) (ParseResult[[]byte], error) {
 	return checkByteSequence(input, isNumeric, 1, "numeric1")
 }
 func isAlphaNumeric(b byte) bool {

@@ -16,11 +16,11 @@ func Sequence[T any](ps ...ParserFunc[T]) ParserFunc[[]T] {
 					Remain: remain,
 				}, err
 			}
-			result = append(result, res.Parsed)
+			result = append(result, *res.Parsed)
 			remain = res.Remain
 		}
 		return ParseResult[[]T]{
-			Parsed: result,
+			Parsed: &result,
 			Remain: remain,
 		}, nil
 	}
@@ -33,11 +33,11 @@ type Pair[T any, U any] struct {
 }
 
 // Next
-func Next[T any, U any](p0 ParserFunc[T], p1 ParserFunc[U]) ParserFunc[*Pair[T, U]] {
-	return func(input []byte) (ParseResult[*Pair[T, U]], error) {
+func Next[T any, U any](p0 ParserFunc[T], p1 ParserFunc[U]) ParserFunc[Pair[T, U]] {
+	return func(input []byte) (ParseResult[Pair[T, U]], error) {
 		r0, err := p0(input)
 		if err != nil {
-			return ParseResult[*Pair[T, U]]{
+			return ParseResult[Pair[T, U]]{
 				Parsed: nil,
 				Remain: input,
 			}, err
@@ -45,16 +45,16 @@ func Next[T any, U any](p0 ParserFunc[T], p1 ParserFunc[U]) ParserFunc[*Pair[T, 
 
 		r1, err := p1(r0.Remain)
 		if err != nil {
-			return ParseResult[*Pair[T, U]]{
+			return ParseResult[Pair[T, U]]{
 				Parsed: nil,
 				Remain: input,
 			}, err
 		}
 
-		return ParseResult[*Pair[T, U]]{
+		return ParseResult[Pair[T, U]]{
 			Parsed: &Pair[T, U]{
-				Prev: r0.Parsed,
-				Next: r1.Parsed,
+				Prev: *r0.Parsed,
+				Next: *r1.Parsed,
 			},
 			Remain: r1.Remain,
 		}, nil

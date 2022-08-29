@@ -2,7 +2,7 @@ package godrink
 
 // ParseResult contains parsed object and remain bytes
 type ParseResult[T any] struct {
-	Parsed T
+	Parsed *T
 	Remain []byte
 }
 
