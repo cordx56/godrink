@@ -2,8 +2,6 @@ package godrink
 
 import (
 	"bytes"
-	"errors"
-	"fmt"
 )
 
 // String
@@ -13,7 +11,10 @@ func String(tag []byte) ParserFunc[[]byte] {
 			return ParseResult[[]byte]{
 				Parsed: nil,
 				Remain: input,
-			}, errors.New(fmt.Sprintf("tag(%s)", tag))
+			}, &ParseError{
+				Cause: "tag",
+				RemainLength: len(input),
+			}
 		}
 		if bytes.Equal(tag, input[:len(tag)]) {
 			return ParseResult[[]byte]{
@@ -24,7 +25,10 @@ func String(tag []byte) ParserFunc[[]byte] {
 			return ParseResult[[]byte]{
 				Parsed: nil,
 				Remain: input,
-			}, errors.New(fmt.Sprintf("tag(%s)", tag))
+			}, &ParseError{
+				Cause: "tag",
+				RemainLength: len(input),
+			}
 		}
 	}
 }
@@ -39,7 +43,10 @@ func checkByteSequence(input []byte, checkFunc func(byte) bool, minLength int, e
 				return ParseResult[[]byte]{
 					Parsed: nil,
 					Remain: input,
-				}, errors.New(errStr)
+				}, &ParseError{
+					Cause: errStr,
+					RemainLength: len(input) - len(ret),
+				}
 			} else {
 				return ParseResult[[]byte]{
 					Parsed: &ret,

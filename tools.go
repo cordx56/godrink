@@ -1,7 +1,5 @@
 package godrink
 
-import "errors"
-
 // Optional
 func Optional[T any](p ParserFunc[T]) ParserFunc[T] {
 	return func(input []byte) (ParseResult[T], error) {
@@ -22,7 +20,10 @@ func Try[T any](ps ...ParserFunc[T]) ParserFunc[T] {
 		return ParseResult[T]{
 			Parsed: nil,
 			Remain: input,
-		}, errors.New("try")
+		}, &ParseError{
+			Cause: "try",
+			RemainLength: len(input),
+		}
 	}
 }
 
@@ -54,8 +55,11 @@ func many[T any](p ParserFunc[T], minCount int, errStr string) ParserFunc[[]T] {
 				if i < minCount {
 					return ParseResult[[]T]{
 						Parsed: nil,
-						Remain: res.Remain,
-					}, errors.New(errStr)
+						Remain: input,
+					}, &ParseError{
+						Cause: errStr,
+						RemainLength: len(res.Remain),
+					}
 				} else {
 					return ParseResult[[]T]{
 						Parsed: &result,
@@ -73,4 +77,21 @@ func Many0[T any](p ParserFunc[T]) ParserFunc[[]T] {
 }
 func Many1[T any](p ParserFunc[T]) ParserFunc[[]T] {
 	return many(p, 1, "many1")
+}
+
+
+func NoRemain[T any](p ParserFunc[T]) ParserFunc[T] {
+	return func(input []byte) (ParseResult[T], error) {
+		res, _ := p(input)
+		if 0 < len(res.Remain) {
+			return ParseResult[T]{
+				Parsed: res.Parsed,
+				Remain: input,
+			}, &ParseError{
+				Cause: "NoRemain",
+				RemainLength: len(res.Remain),
+			}
+		}
+		return res, nil
+	}
 }
