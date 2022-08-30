@@ -12,9 +12,12 @@ func main() {
 	s := bufio.NewScanner(os.Stdin)
 	for {
 		s.Scan()
-		res, err := expr([]byte(s.Text()))
+		input := []byte(s.Text())
+		res, err := godrink.NoRemain(expr)(input)
 		if err != nil {
-			fmt.Fprintln(os.Stderr, "parse error!")
+			pe := err.(*godrink.ParseError)
+			errorMessage := godrink.FormattedErrorMessage(input, pe)
+			fmt.Println(errorMessage)
 		} else {
 			fmt.Printf("%f\n", *res.Parsed)
 		}
