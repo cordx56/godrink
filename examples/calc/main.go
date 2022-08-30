@@ -25,20 +25,21 @@ func main() {
 }
 
 
-func bytesToInt(input []byte) float64 {
-	res := 0.0
-	for _, v := range input {
-		res *= 10.0
-		res += float64(v - '0')
-	}
-	return res
-}
 // transform numbers into float64
 func number(input []byte) (godrink.ParseResult[float64], error) {
-	return godrink.Transform(
-		godrink.Numeric1,
-		bytesToInt,
-	)(input)
+	res, err := godrink.Integer(input)
+	if err != nil {
+		return godrink.ParseResult[float64]{
+			Parsed: nil,
+			Remain: res.Remain,
+		}, err
+	} else {
+		float := float64(*res.Parsed)
+		return godrink.ParseResult[float64]{
+			Parsed: &float,
+			Remain: res.Remain,
+		}, nil
+	}
 }
 // parse number and expression
 func factor(input []byte) (godrink.ParseResult[float64], error) {
