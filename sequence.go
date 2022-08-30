@@ -13,7 +13,7 @@ func Sequence[T any](ps ...ParserFunc[T]) ParserFunc[[]T] {
 			if err != nil {
 				return ParseResult[[]T]{
 					Parsed: nil,
-					Remain: remain,
+					Remain: input,
 				}, err
 			}
 			result = append(result, *res.Parsed)

@@ -2,8 +2,8 @@ package godrink
 
 import "errors"
 
-// Option
-func Option[T any](p ParserFunc[T]) ParserFunc[T] {
+// Optional
+func Optional[T any](p ParserFunc[T]) ParserFunc[T] {
 	return func(input []byte) (ParseResult[T], error) {
 		res, _ := p(input)
 		return res, nil

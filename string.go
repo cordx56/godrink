@@ -30,7 +30,7 @@ func String(tag []byte) ParserFunc[[]byte] {
 }
 
 func checkByteSequence(input []byte, checkFunc func(byte) bool, minLength int, errStr string) (ParseResult[[]byte], error) {
-	var ret []byte
+	ret := make([]byte, 0, len(input))
 	for i := 0; i < len(input); i++ {
 		if checkFunc(input[i]) {
 			ret = append(ret, input[i])
