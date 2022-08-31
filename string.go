@@ -1,35 +1,61 @@
 package godrink
 
-import (
-	"bytes"
-)
+func checkBytesEqual(a []byte, b []byte) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i := 0; i < len(a); i++ {
+		if a[i] != b[i] {
+			return false
+		}
+	}
+	return true
+}
 
 // String
-func String(tag []byte) ParserFunc[[]byte] {
+func String(str []byte) ParserFunc[[]byte] {
 	return func(input []byte) (ParseResult[[]byte], error) {
-		if len(input) < len(tag) {
+		if len(input) < len(str) {
 			return ParseResult[[]byte]{
 				Parsed: nil,
 				Remain: input,
 			}, &ParseError{
-				Cause: "tag",
+				Cause: "String",
 				RemainLength: len(input),
 			}
 		}
-		if bytes.Equal(tag, input[:len(tag)]) {
+		if checkBytesEqual(str, input[:len(str)]) {
 			return ParseResult[[]byte]{
-				Parsed: &tag,
-				Remain: input[len(tag):],
+				Parsed: &str,
+				Remain: input[len(str):],
 			}, nil
 		} else {
 			return ParseResult[[]byte]{
 				Parsed: nil,
 				Remain: input,
 			}, &ParseError{
-				Cause: "tag",
+				Cause: "String",
 				RemainLength: len(input),
 			}
 		}
+	}
+}
+// Except
+func Except(str []byte) ParserFunc[[]byte] {
+	return func(input []byte) (ParseResult[[]byte], error) {
+		for i := 0; i < len(input) - len(str); i++ {
+			if checkBytesEqual(str, input[i:len(str)]) {
+				parsed := input[:i]
+				return ParseResult[[]byte]{
+					Parsed: &parsed,
+					Remain: input[i:],
+				}, nil
+			}
+		}
+		return ParseResult[[]byte]{
+			Parsed: &input,
+			Remain: []byte{},
+		}, nil
 	}
 }
 
