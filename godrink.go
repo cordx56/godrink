@@ -1,4 +1,4 @@
-// Package godrink is a simple parser combinator library
+// Package godrink is a simple parser combinators library
 // that provides the functions which required for
 // implementing a parser.
 //
@@ -8,7 +8,7 @@
 // godrink reads the input bytes in order and
 // parses them into the desired structure.
 // This behavior is inspired by nom,
-// the parser combinator library written in Rust.
+// the parser combinators library written in Rust.
 package godrink
 
 // ParseResult contains a pointer to the parsed object and

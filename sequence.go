@@ -1,8 +1,11 @@
 package godrink
 
-// Sequence returns a function that takes input as argument and returns parse result.
-// The function returns by Sequesnce function tries to parse input in order of Sequence function's arguments.
-// If all parsers passed as arguments succeeds to parse input, then return *ParseResult[[]T] and nil.
+// Sequence returns a function that takes input as argument and
+// returns parse result.
+// The function returns by Sequesnce function tries to parse input
+// in order of Sequence function's arguments.
+// If all parsers passed as arguments succeeds to parse input,
+// then return *ParseResult[[]T] and nil.
 // If one of the parsers failed to parse input, then return nil and error.
 func Sequence[T any](ps ...ParserFunc[T]) ParserFunc[[]T] {
 	return func(input []byte) (ParseResult[[]T], error) {
@@ -32,7 +35,7 @@ type Pair[T any, U any] struct {
 	Next U
 }
 
-// Next
+// Next function takes two parsers as arguments and parses the input in order.
 func Next[T any, U any](p0 ParserFunc[T], p1 ParserFunc[U]) ParserFunc[Pair[T, U]] {
 	return func(input []byte) (ParseResult[Pair[T, U]], error) {
 		r0, err := p0(input)

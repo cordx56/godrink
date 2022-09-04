@@ -9,6 +9,7 @@ func bytesToInt(input []byte) int {
 	return res
 }
 
+// Integer parses an input integer and returns it as a value of type int.
 func Integer(input []byte) (ParseResult[int], error) {
 	return Transform(
 		Numeric1,
