@@ -1,5 +1,7 @@
 package godrink
 
+import "bytes"
+
 func checkBytesEqual(a []byte, b []byte) bool {
 	if len(a) != len(b) {
 		return false
@@ -13,14 +15,14 @@ func checkBytesEqual(a []byte, b []byte) bool {
 }
 
 // String
-func String(str []byte) ParserFunc[[]byte] {
+func Bytes(str []byte) ParserFunc[[]byte] {
 	return func(input []byte) (ParseResult[[]byte], error) {
 		if len(input) < len(str) {
 			return ParseResult[[]byte]{
 				Parsed: nil,
 				Remain: input,
 			}, &ParseError{
-				Cause: "String",
+				Cause: "Bytes",
 				RemainLength: len(input),
 			}
 		}
@@ -34,30 +36,40 @@ func String(str []byte) ParserFunc[[]byte] {
 				Parsed: nil,
 				Remain: input,
 			}, &ParseError{
-				Cause: "String",
+				Cause: "Bytes",
 				RemainLength: len(input),
 			}
 		}
 	}
 }
-// Except
-func Except(str []byte) ParserFunc[[]byte] {
+
+func Until(strs ...[]byte) ParserFunc[[]byte] {
 	return func(input []byte) (ParseResult[[]byte], error) {
-		for i := 0; i < len(input) - len(str); i++ {
-			if checkBytesEqual(str, input[i:len(str)]) {
-				parsed := input[:i]
-				return ParseResult[[]byte]{
-					Parsed: &parsed,
-					Remain: input[i:],
-				}, nil
+		pos := -1
+		for _, str := range strs {
+			v := bytes.Index(input, str)
+			if v != -1 && (pos == -1 || v < pos) {
+				pos = v
 			}
 		}
-		return ParseResult[[]byte]{
-			Parsed: &input,
-			Remain: []byte{},
-		}, nil
+		if -1 < pos {
+			parsed := input[:pos]
+			return ParseResult[[]byte]{
+				Parsed: &parsed,
+				Remain: input[pos:],
+			}, nil
+		} else {
+			return ParseResult[[]byte]{
+				Parsed: nil,
+				Remain: input,
+			}, &ParseError{
+				Cause: "Until",
+				RemainLength: len(input),
+			}
+		}
 	}
 }
+
 
 func checkByteSequence(input []byte, checkFunc func(byte) bool, minLength int, errStr string) (ParseResult[[]byte], error) {
 	ret := make([]byte, 0, len(input))

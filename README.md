@@ -7,6 +7,8 @@ godrink is simple, lightweight library.
 godrink does not depend on non-standard libraries.
 
 ## Example
+### Example of function use
+### Example code
 ```golang
 package main
 

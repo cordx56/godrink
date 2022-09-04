@@ -6,6 +6,7 @@ import "fmt"
 type ParseError struct {
 	Cause string
 	RemainLength int
+	ParentError *ParseError
 }
 func (pe *ParseError) Error() string {
 	return pe.Cause
@@ -59,5 +60,9 @@ func FormattedErrorMessage(input []byte, pe *ParseError) string {
 		res += " "
 	}
 	res += "^"
+	if pe.ParentError != nil {
+		res += "\nThis error caused by this parent error:\n"
+		res += FormattedErrorMessage(input, pe.ParentError)
+	}
 	return res
 }
