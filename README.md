@@ -1,4 +1,4 @@
-# godrink - simple parser combinator
+# godrink - simple parser combinators library
 
 godrink is a simple parser combinators library written in Golang, inspired by [nom](https://github.com/Geal/nom) written in Rust.
 
