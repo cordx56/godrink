@@ -1,5 +1,10 @@
 # godrink - simple parser combinators library
 
+[![Golang](https://img.shields.io/github/go-mod/go-version/cordx56/godrink)](https://github.com/cordx56/godrink/blob/main/go.mod)
+[![Go Reference](https://pkg.go.dev/badge/github.com/cordx56/godrink.svg)](https://pkg.go.dev/github.com/cordx56/godrink)
+[![CI](https://github.com/cordx56/godrink/actions/workflows/ci.yml/badge.svg)](https://github.com/cordx56/godrink/actions)
+[![License](https://img.shields.io/github/license/cordx56/godrink)](https://github.com/cordx56/godrink/blob/main/LICENSE)
+
 godrink is a simple parser combinators library written in Golang, inspired by [nom](https://github.com/Geal/nom) written in Rust.
 
 ## Feature
