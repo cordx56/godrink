@@ -2,11 +2,8 @@
 // that provides the functions which required for
 // implementing a parser.
 //
-// You can use these functions procedurally but
-// we recommends using combine them.
-//
-// godrink reads the input bytes in order and
-// parses them into the desired structure.
+// godrink reads the input bytes and applies parsers
+// in order and parses them into the desired structures.
 // This behavior is inspired by nom,
 // the parser combinators library written in Rust.
 package godrink
