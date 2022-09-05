@@ -18,6 +18,7 @@ func Integer(input []byte) (ParseResult[int], error) {
 		bytesToInt,
 	)(input)
 }
+
 // Float parses a float number and returns it as a value of type float64.
 func Float(input []byte) (ParseResult[float64], error) {
 	return Transform(
