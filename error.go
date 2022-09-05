@@ -6,10 +6,11 @@ import "fmt"
 // the number of bytes remaining from the point where the error occurred,
 // and the parent error, if any.
 type ParseError struct {
-	Cause string
+	Cause        string
 	RemainLength int
-	ParentError *ParseError
+	ParentError  *ParseError
 }
+
 // Error function returns the name of the function that caused the parse error.
 func (pe *ParseError) Error() string {
 	return pe.Cause
@@ -26,7 +27,7 @@ type Location struct {
 func GetErrorLocation(input []byte, pe *ParseError) Location {
 	row := 0
 	col := 0
-	for _, v := range input[:len(input) - pe.RemainLength] {
+	for _, v := range input[:len(input)-pe.RemainLength] {
 		if v == '\n' {
 			row += 1
 			col = 0
@@ -59,12 +60,12 @@ func getSpecificLineFromInput(input []byte, targetRow int) []byte {
 // arguments and returns a formatted error message.
 func FormatErrorMessage(input []byte, pe *ParseError) string {
 	loc := GetErrorLocation(input, pe)
-	res := fmt.Sprintf("Parse error at row %d, col %d, caused by %s\n", loc.Row + 1, loc.Col + 1, pe.Cause)
-	line := fmt.Sprintf("%d: ", loc.Row + 1)
+	res := fmt.Sprintf("Parse error at row %d, col %d, caused by %s\n", loc.Row+1, loc.Col+1, pe.Cause)
+	line := fmt.Sprintf("%d: ", loc.Row+1)
 	res += line
 	res += string(getSpecificLineFromInput(input, loc.Row))
 	res += "\n"
-	for i := 0; i < len(line) + loc.Col; i++ {
+	for i := 0; i < len(line)+loc.Col; i++ {
 		res += " "
 	}
 	res += "^"

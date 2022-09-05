@@ -10,6 +10,7 @@ func Optional[T any](p ParserFunc[T]) ParserFunc[T] {
 		return res, nil
 	}
 }
+
 // Opt function is alias of the Optional function
 func Opt[T any](p ParserFunc[T]) ParserFunc[T] {
 	return Optional(p)
@@ -52,6 +53,7 @@ func Transform[T any, U any](p ParserFunc[T], transformer func(T) U) ParserFunc[
 		}, nil
 	}
 }
+
 // Tf function is alias of the Transform function
 func Tf[T any, U any](p ParserFunc[T], transformer func(T) U) ParserFunc[U] {
 	return Transform(p, transformer)
@@ -97,11 +99,13 @@ func many[T any](p ParserFunc[T], minCount int, errStr string) ParserFunc[[]T] {
 		}
 	}
 }
+
 // Many0 function repeatedly attempts to parse with
 // the function passed as an argument.
 func Many0[T any](p ParserFunc[T]) ParserFunc[[]T] {
 	return many(p, 0, "Many0")
 }
+
 // Many1 function repeatedly attempts to parse with
 // the function passed as an argument.
 //

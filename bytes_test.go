@@ -30,7 +30,7 @@ func ExampleSpace1() {
 	res, _ := Space1([]byte(" \tabc"))
 	fmt.Printf("%s\n%s\n", string(*res.Parsed), string(res.Remain))
 	// Output:
-	//  	
+	//
 	// abc
 }
 
@@ -46,8 +46,8 @@ func ExampleMultiSpace1() {
 	res, _ := MultiSpace1([]byte(" \n abc"))
 	fmt.Printf("%s\n%s\n", string(*res.Parsed), string(res.Remain))
 	// Output:
-	//  
-	//  
+	//
+	//
 	// abc
 }
 

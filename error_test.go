@@ -6,7 +6,7 @@ func ExampleGetErrorLocation() {
 	input := []byte("abc\n012")
 	_, err := Sequence(Alpha1, MultiSpace0, Alpha1)(input)
 	loc := GetErrorLocation(input, err.(*ParseError))
-	fmt.Printf("Row: %d, Col: %d\n", loc.Row + 1, loc.Col + 1)
+	fmt.Printf("Row: %d, Col: %d\n", loc.Row+1, loc.Col+1)
 	// Output:
 	// Row: 2, Col: 1
 }

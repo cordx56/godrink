@@ -5,12 +5,12 @@ import (
 	"testing"
 )
 
-type parserTestDefinition[T any] struct{
-	name string
+type parserTestDefinition[T any] struct {
+	name   string
 	parser ParserFunc[T]
-	input []byte
-	res ParseResult[T]
-	err error
+	input  []byte
+	res    ParseResult[T]
+	err    error
 }
 
 func testParser[T any](t *testing.T, test parserTestDefinition[T]) {
