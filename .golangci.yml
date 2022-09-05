@@ -1,0 +1,16 @@
+linters:
+  enable:
+    # defaults
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - typecheck
+    - unused
+    # customs
+    - gofmt
+
+linters-settings:
+  gofmt:
+    simplify: false
