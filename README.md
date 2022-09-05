@@ -18,7 +18,7 @@ See [pkg.go.dev/github.com/cordx56/godrink](https://pkg.go.dev/github.com/cordx5
 
 ## Example
 ### Example projects
-See these repositories.
+See these repositories:
 - [cordx56/gomdrink](https://github.com/cordx56/gomdrink), a markdown parser written using godrink
 
 ### Example code
