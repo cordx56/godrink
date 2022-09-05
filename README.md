@@ -3,10 +3,10 @@
 godrink is a simple parser combinators library written in Golang, inspired by [nom](https://github.com/Geal/nom) written in Rust.
 
 ## Feature
-godrink is simple, lightweight library.
+godrink is a simple, lightweight library.
 godrink does not depend on non-standard libraries.
 
-godrink reads the input bytes and applies parsers in order and parses them into the desired structures.
+godrink reads input bytes and applies parsers in sequence and parses them into the desired structures.
 
 ## Documentation
 See [pkg.go.dev/github.com/cordx56/godrink](https://pkg.go.dev/github.com/cordx56/godrink).
