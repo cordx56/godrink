@@ -55,9 +55,9 @@ func getSpecificLineFromInput(input []byte, targetRow int) []byte {
 	return res
 }
 
-// FormattedErrorMessage function takes an input and an error as
+// FormatErrorMessage function takes an input and an error as
 // arguments and returns a formatted error message.
-func FormattedErrorMessage(input []byte, pe *ParseError) string {
+func FormatErrorMessage(input []byte, pe *ParseError) string {
 	loc := GetErrorLocation(input, pe)
 	res := fmt.Sprintf("Parse error at row %d, col %d, caused by %s\n", loc.Row + 1, loc.Col + 1, pe.Cause)
 	line := fmt.Sprintf("%d: ", loc.Row + 1)
@@ -70,7 +70,7 @@ func FormattedErrorMessage(input []byte, pe *ParseError) string {
 	res += "^"
 	if pe.ParentError != nil {
 		res += "\nThis error caused by this parent error:\n"
-		res += FormattedErrorMessage(input, pe.ParentError)
+		res += FormatErrorMessage(input, pe.ParentError)
 	}
 	return res
 }

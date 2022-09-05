@@ -55,7 +55,7 @@ func main() {
 	res, err := parser(inputBytes)
 	if err != nil {
 		// Display Error message
-		fmt.Println(godrink.FormattedErrorMessage(inputBytes, err.(*godrink.ParseError)))
+		fmt.Println(godrink.FormatErrorMessage(inputBytes, err.(*godrink.ParseError)))
 	} else {
 		// Display calculation result
 		fmt.Println(*res.Parsed)
