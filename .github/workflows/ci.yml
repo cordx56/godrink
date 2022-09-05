@@ -1,4 +1,4 @@
-name: godrink CI
+name: CI
 
 on:
   push:
