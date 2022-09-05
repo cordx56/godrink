@@ -24,13 +24,13 @@ func ExampleAny() {
 func ExampleTransform() {
 	res, _ := Transform(
 		Integer,
-		func(parsed int) int {
-			return parsed + 1
+		func(parsed int) float64 {
+			return float64(parsed)
 		},
 	)([]byte("123"))
-	fmt.Printf("%d\n%s\n", *res.Parsed, string(res.Remain))
+	fmt.Printf("%0.2f\n%s\n", *res.Parsed, string(res.Remain))
 	// Output:
-	// 124
+	// 123.00
 	//
 }
 
