@@ -37,7 +37,7 @@ func Any[T any](ps ...ParserFunc[T]) ParserFunc[T] {
 
 // Transform function transforms the parsed result to another type
 // using the transformer function given as an argument.
-func Transform[T any, U any](p ParserFunc[T], transformer func(T) U) ParserFunc[U] {
+func Transform[T any, U any](p ParserFunc[T], transformer func(*T) U) ParserFunc[U] {
 	return func(input []byte) (ParseResult[U], error) {
 		res, err := p(input)
 		if err != nil {
@@ -46,7 +46,7 @@ func Transform[T any, U any](p ParserFunc[T], transformer func(T) U) ParserFunc[
 				Remain: res.Remain,
 			}, err
 		}
-		mapped := transformer(*res.Parsed)
+		mapped := transformer(res.Parsed)
 		return ParseResult[U]{
 			Parsed: &mapped,
 			Remain: res.Remain,
@@ -55,7 +55,7 @@ func Transform[T any, U any](p ParserFunc[T], transformer func(T) U) ParserFunc[
 }
 
 // Tf function is alias of the Transform function
-func Tf[T any, U any](p ParserFunc[T], transformer func(T) U) ParserFunc[U] {
+func Tf[T any, U any](p ParserFunc[T], transformer func(*T) U) ParserFunc[U] {
 	return Transform(p, transformer)
 }
 

@@ -2,9 +2,9 @@ package godrink
 
 import "math"
 
-func bytesToInt(input []byte) int {
+func bytesToInt(input *[]byte) int {
 	res := 0
-	for _, v := range input {
+	for _, v := range *input {
 		res *= 10
 		res += int(v - '0')
 	}
@@ -29,10 +29,10 @@ func Float(input []byte) (ParseResult[float64], error) {
 				Numeric1,
 			),
 		),
-		func(parsed Pair[int, Pair[[]byte, []byte]]) float64 {
+		func(parsed *Pair[int, Pair[[]byte, []byte]]) float64 {
 			res := float64(parsed.Prev)
 			decimalBytes := parsed.Next.Next
-			decimal := float64(bytesToInt(decimalBytes)) / math.Pow10(len(decimalBytes))
+			decimal := float64(bytesToInt(&decimalBytes)) / math.Pow10(len(decimalBytes))
 			return res + decimal
 		},
 	)(input)
