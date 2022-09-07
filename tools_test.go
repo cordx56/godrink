@@ -24,8 +24,8 @@ func ExampleAny() {
 func ExampleTransform() {
 	res, _ := Transform(
 		Integer,
-		func(parsed int) float64 {
-			return float64(parsed)
+		func(parsed *int) float64 {
+			return float64(*parsed)
 		},
 	)([]byte("123"))
 	fmt.Printf("%0.2f\n%s\n", *res.Parsed, string(res.Remain))
