@@ -13,7 +13,7 @@ func ExampleSequence() {
 
 func ExampleNext() {
 	res, _ := Next(Alpha1, Integer)([]byte("abc123"))
-	fmt.Printf("%s\n%d\n%s\n", string((*res.Parsed).Prev), (*res.Parsed).Next, string(res.Remain))
+	fmt.Printf("%s\n%d\n%s\n", string(*res.Parsed.Prev), *res.Parsed.Next, string(res.Remain))
 	// Output:
 	// abc
 	// 123

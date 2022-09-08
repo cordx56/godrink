@@ -31,8 +31,8 @@ func Sequence[T any](ps ...ParserFunc[T]) ParserFunc[[]T] {
 
 // Pair is a struct that contains pair of datum
 type Pair[T any, U any] struct {
-	Prev T
-	Next U
+	Prev *T
+	Next *U
 }
 
 // Next function takes two parsers as arguments and parses the input in order.
@@ -56,8 +56,8 @@ func Next[T any, U any](p0 ParserFunc[T], p1 ParserFunc[U]) ParserFunc[Pair[T, U
 
 		return ParseResult[Pair[T, U]]{
 			Parsed: &Pair[T, U]{
-				Prev: *r0.Parsed,
-				Next: *r1.Parsed,
+				Prev: r0.Parsed,
+				Next: r1.Parsed,
 			},
 			Remain: r1.Remain,
 		}, nil
